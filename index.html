@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: black;
+            overflow: hidden;
+            margin: 0;
+            font-family: 'Courier', monospace;
+        }
+
+        #back {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 80% center;
+        }
+
+        #reel {
+            width: 70%;
+            max-width: 800px;
+            margin: 20px auto;
+            position: relative;
+            box-shadow: 10px 1px 10px rgb(27, 27, 29);
+            display: none; /* Hidden initially */
+        }
+
+        #reel video {
+            width: 100%;
+            height: auto;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        #response {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            font-size: 6vw; /* Make font size responsive */
+            color: rgb(160, 164, 177);
+            text-shadow: 10px 8px 10px rgb(157, 161, 177);
+            z-index: 1;
+        }
+
+        #content {
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            transform: translateX(-50%);
+            z-index: 1;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+        }
+
+        #userInput {
+            width: 80%;
+            max-width: 300px;
+            padding: 10px;
+            border-top-left-radius: 20px;
+            border-color: rgb(231, 146, 17);
+            font-size: 4vw; /* Font size will scale with viewport width */
+            max-height: 20px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 4vw;
+            max-width: 100px;
+            margin-top: 10px;
+        }
+
+        /* Media Query for larger screens */
+        @media (min-width: 768px) {
+            #response {
+                font-size: 56px; /* Fixed font size for larger screens */
+            }
+
+            #userInput, input[type="submit"] {
+                font-size: 16px; /* Adjust font size for input and button */
+            }
+        }
+
+        @media (min-width: 1200px) {
+            #response {
+                font-size: 64px;
+            }
+
+            #userInput, input[type="submit"] {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="back">
+        <form id="content">
+            <input type="text" id="userInput" name="userInput" placeholder="Hai....">
+            <input type="submit" value="ASK">
+        </form>
+
+        <p id="response"></p> <!-- Text that will show typing effect -->
+
+        <div id="reel">
+            <video id="v" src="./ansinew1.mp4" autoplay loop ></video>
+        </div>
+    </div>
+
+    <script>
+        const form = document.querySelector('form');
+        const responseParagraph = document.getElementById('response');
+        const reelDiv = document.getElementById('reel');
+        const video = document.getElementById('v');
+        const backDiv = document.getElementById('back');
+        let typingText = "itz.Me.Ansii.....";
+        let typingSpeed = 150;
+
+        // Function to handle typing effect
+        function typeWriter(text, element, speed, callback) {
+            let index = 0;
+            element.textContent = ''; // Start with an empty string
+            form.style.display = "none"; // Hide form after starting typing
+
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback(); // Trigger the next action after typing completes
+                }
+            }
+            type();
+        }
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const userInput = document.getElementById('userInput').value;
+
+            if (userInput.trim() !== "") {
+                reelDiv.style.display = 'none'; // Ensure the video is hidden initially
+                backDiv.style.backgroundImage = ''; // Clear background
+
+                // 1. Show the typing effect
+                responseParagraph.style.display = 'block'; // Ensure the typing text is visible
+                typeWriter(typingText, responseParagraph, typingSpeed, () => {
+
+                    // 2. After typing is finished, show the background image
+                    setTimeout(() => {
+                        responseParagraph.style.display = 'none'; // Hide the typed text
+                        backDiv.style.backgroundImage = 'url("Screenshot 2024-09-21 153124.png")'; // Set background image
+
+                        // 3. Wait 1 second before showing the video
+                        setTimeout(() => {
+                            reelDiv.style.display = 'block'; // Make the video container visible
+                            video.style.opacity = '.9'; // Fade in the video
+                        }, 1000); // 1 second delay after background is set
+                    }, 500); // Delay of 500ms after typing before showing the background
+                });
+            }
+        });
+    </script>
+</body>
+</html>

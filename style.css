@@ -1,0 +1,26 @@
+body{
+background-color: rgb(223, 216, 216);
+overflow: hidden;
+}
+
+#reel {
+    width: 150px; /* Set the width of the div */
+    max-width: 800px; /* Optional: Set a max width */
+    margin: 0 auto; /* Center it horizontally if necessary */
+    /* Corrected border-radius syntax */
+    box-shadow: 10px 1px 10px rgb(27, 27, 29); 
+    /* Corrected box-shadow syntax */
+}
+
+#reel video {
+    width: 150px; /* Video will take full width of the parent div */
+    height: auto; /* Maintain aspect ratio */
+    border: 2px solid rgb(130, 117, 129); /* Added border style with color */
+}
+
+#userInput {
+    position: absolute;
+    top: 0%;
+    left: 40%;
+    border: 2px solid rgb(100, 100, 180); /* Applied proper border */
+}
